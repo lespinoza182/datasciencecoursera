@@ -1,4 +1,4 @@
-This folder have the next content:
+This folder have the next content that corresponds to Getting and Cleaning Data Course in Coursera:
 
 a) run_analysis.R: R script that does the following from the UCI HAR Dataset
 ("https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip")
