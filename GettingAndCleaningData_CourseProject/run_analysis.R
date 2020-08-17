@@ -26,7 +26,7 @@ tidy_data <- dataset %>%
   select(subject, code, contains("mean"), contains("std"))
 
 #Step3: Use descriptive activity names to name the activities in the data set.
-tidy_data$code <- features[tidy_data$code, 2]
+tidy_data$code <- activities[tidy_data$code, 2]
 
 #Step4: Appropiately label the data set with descriptive variable names
 names(tidy_data)[2] <- "Activity"
