@@ -26,23 +26,30 @@ tidy_data <- dataset %>%
   select(subject, code, contains("mean"), contains("std"))
 
 #Step3: Use descriptive activity names to name the activities in the data set.
-tidy_data$code <- activities[tidy_data$code, 2]
+tidy_data$code <- factor(tidy_data$code, ordered = TRUE, labels= c("LAYING", "SITTING", "STANDING", "WALKING", "WALKING_UPSTAIRS", "WALKING_DOWNSTAIRS"))
 
 #Step4: Appropiately label the data set with descriptive variable names
 names(tidy_data)[2] <- "Activity"
-names(tidy_data) <- gsub("^t", "Time", names(tidy_data))
-names(tidy_data) <- gsub("^f", "Frequency", names(tidy_data))
-names(tidy_data) <- gsub("Acc", "Accelerometer", names(tidy_data))
-names(tidy_data) <- gsub("Gyro", "Gyroscope", names(tidy_data))
+names(tidy_data) <- gsub("^t", "T", names(tidy_data))
+names(tidy_data) <- gsub("^f", "Freq", names(tidy_data))
+names(tidy_data) <- gsub("Acc", "Acc", names(tidy_data))
+names(tidy_data) <- gsub("Gyro", "Gyr", names(tidy_data))
 names(tidy_data) <- gsub("BodyBody", "Body", names(tidy_data))
-names(tidy_data) <- gsub("Mag", "Magnitude", names(tidy_data))
-names(tidy_data) <- gsub("tBody", "TimeBody", names(tidy_data))
+names(tidy_data) <- gsub("Mag", "Mag", names(tidy_data))
+names(tidy_data) <- gsub("tBody", "tBody", names(tidy_data))
+names(tidy_data) <- gsub("mean", "Mean", names(tidy_data))
+names(tidy_data) <- gsub("-std()", "STD", names(tidy_data), ignore.case = TRUE)
+names(tidy_data) <- gsub("-freq()", "Freq", names(tidy_data), ignore.case = TRUE)
+names(tidy_data) <- gsub("angle", "Ang", names(tidy_data))
+names(tidy_data) <- gsub("gravity", "Gr", names(tidy_data))
+names(tidy_data) <- gsub(".._mean", "", names(tidy_data))
+names(tidy_data) <- gsub("...X_mean", "", names(tidy_data))
+
 
 #Step5: Creates a second, independent tidy data set with the average of each 
 #variable for each activity and each subject.
 clean_dataset <- tidy_data %>%
   group_by(subject, Activity) %>%
   summarise_all(list(mean = mean))
+clean_dataset <- clean_dataset[order(subject)]
 write.table(clean_dataset, "CleanDataset.txt", row.names = FALSE, quote = FALSE)
-
-
